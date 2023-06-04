@@ -1,6 +1,9 @@
 import React, { useState,useEffect } from 'react';
 import "./Home.scss";
 import axios from 'axios';
+import {Link} from "react-router-dom";
+import {BiPlay} from "react-icons/bi";
+import{AiOutlinePlus} from "react-icons/ai";
 
 
 const apikey = "63dd2f81e07ee863b58fe14051873457";
@@ -36,14 +39,15 @@ const Row = ({
 )
 const Home = () => {
 
-    const [upcomingMovies, setUpcomingMovies] = useState([])
-    const [nowPlaynigMovies, setNowPlayingMovies] = useState([])
-    const [popularMovies, setPopularMovies] = useState([])
-    const [topRatedMovies, setTopRatedMovies] = useState([])
+    const [upcomingMovies, setUpcomingMovies] = useState([]);
+    const [nowPlaynigMovies, setNowPlayingMovies] = useState([]);
+    const [popularMovies, setPopularMovies] = useState([]);
+    const [topRatedMovies, setTopRatedMovies] = useState([]);
+    const [genre, setGenre] = useState([]);
 
     useEffect(() =>{
       const fetchUpcoming = async()=>{
-         const {data: {results}} = await axios.get(`${url}/movie/${upcoming}?api_key=${apikey}`)
+         const {data: {results}} = await axios.get(`${url}/movie/${upcoming}?api_key=${apikey}&page=5`)
        
          setUpcomingMovies(results);
 
@@ -66,7 +70,14 @@ const Home = () => {
     setTopRatedMovies(results);
 
  };
+ const getAllGenre = async()=>{
+  const {data: {genres}} = await axios.get(`${url}/genre/movie/list?api_key=${apikey}`)
+ 
+  setGenre(genres);
+  console.log(genres);
+};
 
+      getAllGenre();
       fetchUpcoming();
       fetchnowPlaying();
       fetchpopular();
@@ -78,13 +89,34 @@ const Home = () => {
   return (
     
     <section className='home'>
-      <div className="banner"></div>
+      <div className="banner" style={{
+        backgroundImage: popularMovies[0] ? `url(${`${imgUrl}/${popularMovies[0].poster_path}`})` 
+        : "rgb(16,16,16)"
+      }}>
+
+
+        <h1>{popularMovies[0].original_title}</h1>
+        <p>{popularMovies[0].overview}</p>
+
+        <div>
+
+        <button><BiPlay/> Play </button>
+        <button>My List< AiOutlinePlus/></button>
+
+        </div>
+      </div>
 
      
       <Row title={"Upcoming"} arr={upcomingMovies}/>
       <Row title={"Now Playing"} arr={nowPlaynigMovies}/>
       <Row title={"Popular"} arr={popularMovies}/>
       <Row title={"Top Rated"} arr={topRatedMovies}/>
+
+      <div className="genreBox">
+        {genre.map((item)=>(
+            <Link key={item.id} to={`/genre/${item.id}`}>{item.name}</Link>
+        ))}
+      </div>
 
      
     </section>

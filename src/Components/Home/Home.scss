@@ -3,7 +3,67 @@ $bg: rgb(16, 16, 16);
 .banner{
     height: 400px;
     background-color: $bg;
-   
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+   &::after{
+    content: "";
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background: $bg;
+    opacity: 0.4;
+   }
+   h1,
+   p{
+    color: white;
+    font-size: 3rem;
+    width: 40%;
+    z-index: 10;
+   }
+   p {
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+    word-spacing: 2px;
+
+   }
+
+   >div{
+    display: flex;
+
+    button{
+        padding: 1rem;
+        width: 150px;
+        border: none;
+        outline: none;
+        z-index: 10;
+        border-radius: 5px;
+        margin: 1rem;
+        cursor: pointer;
+        font-size:1.2rem ;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &:nth-child(odd){
+            background-color: white;
+            color: black;
+        }
+        &:nth-child(even){
+            background-color: rgb(157, 152, 152);
+            color: white;
+        }
+        svg {
+            font-size: 1.7rem;
+            margin: 0 10px;
+        }
+    }
+   }
+  
 }
 
 .row{
@@ -27,5 +87,29 @@ $bg: rgb(16, 16, 16);
     transition: transform 0.5s;
     &:hover {
         transform: translateY(-10px);
+    }
+}
+
+.genreBox{
+    overflow-x: auto;
+    display: flex;
+    height: 100px;
+    background-color: $bg;
+    > a {
+        color: black;
+        background-color: white;
+        padding: 1rem 0;
+        border-radius: 5px;
+        text-align: center;
+        transition: all 0.5s;
+        min-width: 10rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 1rem;
+
+        &:hover{
+            background-color: rgb(185, 175, 175);
+        }
     }
 }

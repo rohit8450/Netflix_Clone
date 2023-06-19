@@ -2,7 +2,7 @@ import React, { useState,useEffect } from 'react';
 import "./Home.scss";
 import axios from 'axios';
 import {Link} from "react-router-dom";
-import {BiPlay} from "react-icons/bi";
+import {BsFillPlayFill} from "react-icons/bs";
 import{AiOutlinePlus} from "react-icons/ai";
 
 
@@ -14,9 +14,12 @@ const nowPlaying = "now_playing";
 const popular = "popular";
 const topRated = "top_rated";
 
-const Card = ({ img }) => (
+const Card = ({ img }) => {console.log("card img",img) 
+  return(
       <img className='card' src={img} alt="cover" />
-  )
+
+  )}
+  
 
 const Row = ({
   title,
@@ -29,10 +32,14 @@ const Row = ({
   <h2>{title}</h2>
    <div>
    {
-    arr.map((item, index)=>(
+
+    arr.map((item, index)=>{  console.log(`${imgUrl}/${item.poster_path}`) 
+      return (
+     
         <Card key={index} img={`${imgUrl}/${item.poster_path}`} />
-    ))
+    )})
    }
+
    </div>  
    </div>
  
@@ -85,7 +92,7 @@ const Home = () => {
 
     }, [])
 
-
+// console.log(popularMovies[0].overview)
   return (
     
     <section className='home'>
@@ -95,12 +102,12 @@ const Home = () => {
       }}>
 
 
-        <h1>{popularMovies[0].original_title}</h1>
-        <p>{popularMovies[0].overview}</p>
+      {popularMovies[0] && <h1>{popularMovies[0].original_title}</h1>}
+      {popularMovies[0] && <p>{popularMovies[0].overview}</p>}
 
         <div>
 
-        <button><BiPlay/> Play </button>
+        <button><BsFillPlayFill  /> Play </button>
         <button>My List< AiOutlinePlus/></button>
 
         </div>
